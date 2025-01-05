@@ -11,8 +11,9 @@
 			<!-- Card body START -->
 			<div class="card-body">
 				<!-- Form -->
-				<form class="row g-4">
-
+				<form class="row g-4" action="{{ route('student.profile.update' , Auth::user()->id) }}" method="POST">
+					@csrf
+					@method('PUT')
 					<!-- Profile picture -->
 					<div class="col-12 justify-content-center align-items-center">
 						<label class="form-label">Profile picture</label>
@@ -36,7 +37,7 @@
 					<div class="col-12">
 						<label class="form-label">Full name</label>
 						<div class="input-group">
-							<input type="text" name="name" class="form-control" value="Lori" placeholder="First name">
+							<input type="text" name="full_name" class="form-control" value="{{ $user['full_name'] }}" placeholder="First name" >
 						</div>
 					</div>
 
@@ -45,32 +46,32 @@
 						<label class="form-label">Username</label>
 						<div class="input-group">
 							<span class="input-group-text">MindMingle.co.id</span>
-							<input type="text" name="username" class="form-control" value="loristev">
+							<input type="text" value="{{ $user['username'] }}" name="username" class="form-control" value="loristev">
 						</div>
 					</div>
 
 					<!-- Email id -->
 					<div class="col-md-6">
 						<label class="form-label">Email</label>
-						<input class="form-control" type="email" name="email" value="example@gmail.com" placeholder="Email">
+						<input class="form-control" type="email" value="{{ $user['email'] }}" name="email" value="example@gmail.com" placeholder="Email">
 					</div>
 
 					<!-- Phone number -->
 					<div class="col-md-6">
 						<label class="form-label">Phone number</label>
-						<input type="text" class="form-control" name="phone_number" value="1234567890" placeholder="Phone number">
+						<input type="text" class="form-control" name="phone_number" value="{{ $user['phone_number'] }}" placeholder="Phone number">
 					</div>
 
 					<!-- About me -->
 					<div class="col-12">
 						<label class="form-label">About me</label>
-						<textarea name="about" class="form-control" rows="3">I’ve found a way to get paid for my favorite hobby, and do so while following my dream of traveling the world.</textarea>
+						<textarea name="about" class="form-control" rows="3">{{ $user['about'] }}</textarea>
 						<div class="form-text">Brief description for your profile.</div>
 					</div>
 
 					<!-- Save button -->
 					<div class="d-sm-flex justify-content-end">
-						<button type="button" class="btn btn-primary mb-0">Save changes</button>
+						<button type="submit" class="btn btn-primary mb-0">Save changes</button>
 					</div>
 				</form>
 			</div>
@@ -87,17 +88,20 @@
 						<h5 class="card-header-title mb-0">Update password</h5>
 					</div>
 					<!-- Card body START -->
+					<form action="{{ route('student.password.update', Auth::user()->id) }}" method="POST">
+						@csrf
+						@method('PUT')
 					<div class="card-body">
 						<!-- Current password -->
 						<div class="mb-3">
 							<label class="form-label">Current password</label>
-							<input class="form-control" type="password" placeholder="Enter current password">
+							<input class="form-control" name="password" type="password" placeholder="Enter current password">
 						</div>
 						<!-- New password -->
 						<div class="mb-3">
 							<label class="form-label"> Enter new password</label>
 							<div class="input-group">
-								<input class="form-control" type="password" placeholder="Enter new password">
+								<input class="form-control" name="new_password" id="new-password" autocomplete="new-password" type="password" placeholder="Enter new password">
 								<span class="input-group-text p-0 bg-transparent">
 									<i class="far fa-eye cursor-pointer p-2 w-40px"></i>
 								</span>
@@ -107,13 +111,14 @@
 						<!-- Confirm password -->
 						<div>
 							<label class="form-label">Confirm new password</label>
-							<input class="form-control" type="password" placeholder="Enter new password">
+							<input class="form-control" type="password" id="password_confirmation" autocomplete="new-password" placeholder="Enter new password">
 						</div>
 						<!-- Button -->
 						<div class="d-flex justify-content-end mt-4">
-							<button type="button" class="btn btn-primary mb-0">Change password</button>
+							<button type="submit" class="btn btn-primary mb-0">Change password</button>
 						</div>
 					</div>
+				</form>
 					<!-- Card body END -->
 				</div>
 			</div>
@@ -140,7 +145,7 @@
 								account</label>
 						</div>
 						<a href="#" class="btn btn-success-soft mb-2 mb-sm-0">Keep my account</a>
-						<a href="#" class="btn btn-danger mb-0">Delete my account</a>
+						<a href="{{ route('student.delete') }}" class="btn btn-danger mb-0">Delete my account</a>
 					</div>
 				</div>
 				<!-- Title and select END -->
