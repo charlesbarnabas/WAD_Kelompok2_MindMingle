@@ -19,7 +19,7 @@ class CourseCategoryController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $courseCategories = CourseCategory::select('category_id', 'category_name', 'category_slug')->latest();
+            $courseCategories = CourseCategory::select('category_id', 'category_name', 'category_slug', 'category_desc')->latest();
 
             return Datatables::of($courseCategories)
                 ->addIndexColumn()
@@ -62,11 +62,13 @@ class CourseCategoryController extends Controller
         $validate = $request->validate([
             'category_name' => 'required|string|regex:/^[a-zA-Z\s]+$/|min:3|max:50',
             'category_slug' => 'required|string|unique:course_categories|min:3|max:50',
+            'category_desc' => 'required|string',
         ]);
 
         $courseCategories = CourseCategory::create([
             'category_name' => $validate['category_name'],
             'category_slug' => ucfirst(Str::slug($validate['category_slug'])),
+            'category_desc' => $validate['category_desc'],
         ]);
         if ($courseCategories) {
             Alert::success('Success', 'New Course Category has been created!');
@@ -100,12 +102,14 @@ class CourseCategoryController extends Controller
     {
         $validate = $request->validate([
             'category_name' => 'required|string|regex:/^[a-zA-Z\s]+$/|min:3|max:50',
-            'category_slug' => 'required|string|unique:course_categories,category_slug,' . $request->category_id . ',category_id|min:3|max:50'
+            'category_slug' => 'required|string|unique:course_categories,category_slug,' . $request->category_id . ',category_id|min:3|max:50',
+            'category_desc' => 'required|string',
         ]);
 
         $courseCategories = CourseCategory::where('category_slug', $category_slug)->firstOrFail()->update([
             'category_name' => $validate['category_name'],
             'category_slug' => ucfirst(Str::slug($validate['category_slug'])),
+            'category_desc' => $validate['category_desc'],
         ]);
         if ($courseCategories) {
             Alert::success('Success', 'Course Category has been edited!');

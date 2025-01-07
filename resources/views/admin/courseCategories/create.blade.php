@@ -52,6 +52,21 @@
 									</div>
 								</div>
 							</div>
+							<div class="row">
+								<div class="col-8 ">
+									<div class="mb-3">
+										<label for="formGroupExampleInput" class="form-label">Category Description</label>
+										<textarea type="text" class="form-control @error('category_desc') is-invalid @enderror"
+											id="formGroupExampleInput" name="category_desc"
+											placeholder="Input Category Description" required>{{ old('category_desc') }}</textarea>
+										@error('category_desc')
+											<div class="invalid-feedback">
+												{{ $message }}
+											</div>
+										@enderror
+									</div>
+								</div>
+							</div>
 							<hr>
 							<div class="col-12 text-end">
 								<button type="reset" class="btn btn-danger fs-5">Reset</button>

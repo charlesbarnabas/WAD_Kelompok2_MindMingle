@@ -11,7 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
-
+use Yajra\DataTables\DataTables as DataTablesDataTables;
 
 class InstructorController extends Controller
 {
@@ -27,7 +27,7 @@ class InstructorController extends Controller
                 $query->where('role_name', 'Instructor');
             })->latest();
 
-            return Datatables::of($instructors)
+            return DataTablesDataTables::of($instructors)
                 ->addIndexColumn()
                 ->editColumn('status', function ($instructors) {
                     switch ($instructors->status):

@@ -220,6 +220,7 @@
 							<hr>
 						</li>
 						<!-- Links -->
+						@if(Auth::user()->role_id ==2)
 						<li><a class="dropdown-item" href="{{ route('student.edit', Auth::user()->username) }}"><i
 									class="bi bi-person fa-fw me-2"></i>Edit
 								Profile</a>
@@ -234,6 +235,22 @@
 								onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();"><i
 									class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
+						@elseif(Auth::user()->role_id ==3)
+						<li><a class="dropdown-item" href="{{ route('instructor.edit', Auth::user()->username) }}"><i
+							class="bi bi-person fa-fw me-2"></i>Edit
+						Profile</a>
+				</li>
+				<li><a class="dropdown-item" href="{{ route('instructor.setting') }}"><i class="bi bi-gear fa-fw me-2"></i>Account
+						Settings</a>
+				</li>
+				<li><a class="dropdown-item" href="{{ route('help') }}"><i class="bi bi-info-circle fa-fw me-2"></i>Help</a>
+				</li>
+
+				<li><a class="dropdown-item bg-danger-soft-hover" href="{{ route('logout') }}"
+						onclick="event.preventDefault();
+											 document.getElementById('logout-form').submit();"><i
+							class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
+						@endif
 						<form action="{{ route('logout') }}" id="logout-form" method="POST" class="d-none">
 							@csrf
 						</form>
