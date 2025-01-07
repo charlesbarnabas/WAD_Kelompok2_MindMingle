@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use DataTables;
 use Illuminate\Support\Str;
 use RealRashid\SweetAlert\Facades\Alert;
+use Yajra\DataTables\DataTables as DataTablesDataTables;
 
 class ClassTypeController extends Controller
 {
@@ -21,7 +22,7 @@ class ClassTypeController extends Controller
         if ($request->ajax()) {
             $classTypes = CourseClassType::select('class_type_id', 'class_type_name', 'class_type_slug')->latest();
 
-            return Datatables::of($classTypes)
+            return DataTablesDataTables::of($classTypes)
                 ->addIndexColumn()
                 ->addColumn('action', function ($classTypes) {
                     $actionBtn =  '
