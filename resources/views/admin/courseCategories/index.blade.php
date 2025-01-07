@@ -52,12 +52,15 @@
 											<tr>
 												<th class="sorting sorting_asc" tabindex="0" aria-controls="datatables-column-search-text-inputs"
 													rowspan="1" colspan="1" aria-sort="ascending"
-													aria-label="Category Name: activate to sort column descending" style="width: 179px;">Category Name</th>
+													aria-label="Category Name: activate to sort column descending" style="width: 100px;">Category Name</th>
 												<th class="sorting" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"
-													colspan="1" aria-label="Category Slug: activate to sort column ascending" style="width: 179px;">Category
+													colspan="1" aria-label="Category Slug: activate to sort column ascending" style="width: 100px;">Category
 													Slug</th>
+												<th class="no-sort" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"
+													colspan="1" aria-label="Category Desc: activate to sort column ascending" style="width: 100px;">Category
+													Desc</th>
 												<th class="no-short" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"
-													colspan="1" aria-label="Action: activate to sort column ascending" style="width: 179px;">Action</th>
+													colspan="1" aria-label="Action: activate to sort column ascending" style="width: 100px;">Action</th>
 											</tr>
 										</thead>
 										<tbody>

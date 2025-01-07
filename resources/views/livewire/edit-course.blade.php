@@ -102,9 +102,10 @@
                                     {{ $successMsg }}
                                 @endif
                                 <div class="bs-stepper-content">
-                                    <form method="POST" action="{{ route('instructor.mycourse.add') }}"
+                                    <form method="POST" action="{{ route('instructor.mycourse.update', $data_course->masterclass_id ) }}"
                                         enctype="multipart/form-data">
                                         @csrf
+                                        @method('PUT')
                                         <!-- Step 1 content START -->
                                         <div id="step-1" role="tabpanel" class="content fade dstepper-block"
                                             aria-labelledby="steppertrigger1">
@@ -122,7 +123,7 @@
                                                         class="form-control @error('masterclass_name') is-invalid @enderror"
                                                         name="masterclass_name" wire:model="masterclass_name" type="text"
                                                         placeholder="Enter course title"
-                                                        value="{{ old('masterclass_name') }}">
+                                                        value="{{ $data_course->masterclass_name }}"required>
                                                     @error('masterclass_name')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
@@ -134,7 +135,7 @@
                                                 <div class="col-12">
                                                     <label class="form-label">Short description</label>
                                                     <textarea class="form-control @error('masterclass_short_desc') @enderror" name="masterclass_short_description"
-                                                        wire:model="masterclass_short_desc" rows="2" placeholder="Enter keywords">{{ old('masterclass_short_desc') }}</textarea>
+                                                        wire:model="masterclass_short_desc" rows="2" placeholder="Enter keywords">{{ $data_course->masterclass_short_desc }}</textarea>
                                                     @error('masterclass_short_desc')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
@@ -149,9 +150,13 @@
                                                         wire:model="category" id="category" aria-label=".form-select-sm ">
                                                         <option value="">Select course category</option>
                                                         @foreach ($categories as $category)
-                                                            <option value="{{ $category->category_id }}"
-                                                                {{ $category->category_id == old('category_id') ? 'selected' : 'is_invalid' }}>
+                                                        @if($data_course->category_id == $category->category_id)
+                                                            <option value="{{ $category->category_id }}" selected>
                                                                 {{ $category->category_name }}</option>
+                                                        @else
+                                                        <option value="{{ $category->category_id }}">
+                                                            {{ $category->category_name }}</option>
+                                                        @endif
                                                         @endforeach
                                                     </select>
                                                     @error('category_id')
@@ -169,9 +174,13 @@
                                                         id="masterclass_level" aria-label=".form-select-sm ">
                                                         <option value="">Select course level</option>
                                                         @foreach ($levels as $level)
-                                                            <option value="{{ $level->masterclass_level_id }}"
-                                                                {{ $level->masterclass_level_id == old('masterclass_level_id') ? 'selected' : 'is_invalid' }}>
+                                                        @if($data_course->masterclass_level_id == $level->masterclass_level_id)
+                                                            <option value="{{ $level->masterclass_level_id }}" selected>
                                                                 {{ $level->masterclass_level_name }}</option>
+                                                        @else
+                                                        <option value="{{ $level->masterclass_level_id }}">
+                                                            {{ $level->masterclass_level_name }}</option>
+                                                        @endif
                                                         @endforeach
                                                     </select>
                                                     @error('masterclass_level_id')
@@ -189,10 +198,15 @@
                                                         aria-label=".form-select-sm example">
                                                         <option value="">Select class type</option>
                                                         @foreach ($classes as $class)
-                                                            <option value="{{ $class->class_type_id }}"
-                                                                {{ $class->class_type_id == old('class_type') ? 'selected' : 'is_invalid' }}>
+                                                        @if($data_course->class_type_id == $class->class_type_id)
+                                                            <option value="{{ $class->class_type_id }}" selected>
                                                                 {{ $class->class_type_name }}
                                                             </option>
+                                                            @else
+                                                            <option value="{{ $class->class_type_id }}">
+                                                                {{ $class->class_type_name }}
+                                                            </option>
+                                                            @endif
                                                         @endforeach
                                                     </select>
                                                     @error('class_type_id')
@@ -210,10 +224,15 @@
                                                         aria-label=".form-select-sm example">
                                                         <option value="">Select price type</option>
                                                         @foreach ($prices as $price)
-                                                            <option value="{{ $price->price_type_id }}"
-                                                                {{ $price->price_type_id == old('price_type_id') ? 'selected' : 'is_invalid' }}>
+                                                        @if($data_course->price_type_id == $price->price_type_id)
+                                                            <option value="{{ $price->price_type_id }}" selected>
                                                                 {{ $price->price_type_name }}
                                                             </option>
+                                                        @else
+                                                        <option value="{{ $price->price_type_id }}">
+                                                            {{ $price->price_type_name }}
+                                                        </option>
+                                                        @endif
                                                         @endforeach
                                                     </select>
                                                     @error('price_type_id')
@@ -231,7 +250,7 @@
                                                         name="masterclass_total_duration" type="text"
                                                         wire:model="masterclass_total_duration" data-mask="00h 00m"
                                                         id="masterclass_total_duration"
-                                                        placeholder="Enter course time (00h 00m)">
+                                                        placeholder="Enter course time (00h 00m)" value="{{$data_course->masterclass_total_duration}}">
                                                     @error('masterclass_total_duration')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
@@ -246,7 +265,7 @@
                                                         class="form-control @error('masterclass_total_curriculum') is-invalid @enderror"
                                                         type="number" wire:model="masterclass_total_curriculum"
                                                         name="masterclass_total_curriculum"
-                                                        placeholder="Enter total curriculumn">
+                                                        placeholder="Enter total curriculumn" value="{{$data_course->masterclass_total_curriculum}}">
                                                     @error('masterclass_total_curriculum')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
@@ -260,7 +279,7 @@
                                                     <input type="number"
                                                         class="form-control @error('price') is_invalid @enderror"
                                                         id="masterclass_price" name="masterclass_price"
-                                                        wire:model="price" placeholder="Enter course price">
+                                                        wire:model="price" placeholder="Enter course price" value="{{$data_course->masterclass_price}}">
                                                     @error('price')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
@@ -273,7 +292,7 @@
                                                 <div class="col-12">
                                                     <label class="form-label">Description</label>
                                                     <textarea class="form-control @error('masterclass_description') is-invalid @enderror" name="masterclass_description"
-                                                        wire:model="masterclass_description" rows="12" placeholder="Enter keywords">{{ old('masterclass_description') }}</textarea>
+                                                        wire:model="masterclass_description" rows="12" placeholder="Enter keywords">{{ $data_course->masterclass_description }}</textarea>
                                                     @error('masterclass_description')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
@@ -305,7 +324,7 @@
                                                         class="text-center justify-content-center align-items-center p-4 p-sm-5 border border-2 border-dashed position-relative rounded-3">
                                                         <!-- Image -->
                                                         <img id="thumbnail" class="h-200px" width="300"
-                                                            src="{{ asset('assets/images/element/gallery.svg') }}"
+                                                            src="{{ url('masterclass/thumbnails/'. $data_course->masterclass_thumbnail) }}"
                                                             alt="your image" />
                                                         <div>
                                                             <h6 class="my-2">Upload course image here, or<a
@@ -361,7 +380,7 @@
                                                         <div class="video-player rounded-3">
                                                             <video controls crossorigin="anonymous" class="rounded-3"
                                                                 playsinline poster="#">
-                                                                <source src="#" type="video/mp4" size="720"
+                                                                <source src="{{url('masterclass/previews/'. $data_course->masterclass_video_preview)}}" type="video/mp4" size="720"
                                                                     id="video_here">
                                                                 Your browser does not support HTML5 video.
                                                             </video>
